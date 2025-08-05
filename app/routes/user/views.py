@@ -57,7 +57,7 @@ def seller_module():
     name = seller.name
 
     # Purchases
-    purchases = Purchase.query.filter_by(seller_name=name).all()
+    purchases = Purchase.query.filter_by(seller_name=name).order_by(Purchase.date.desc()).all()
     purchase_summary = {
         'quantity': sum(p.quantity or 0 for p in purchases),
         'reduction': sum(p.reduction or 0 for p in purchases),
@@ -68,7 +68,7 @@ def seller_module():
     }
 
     # Payments
-    payments = Payment.query.filter_by(seller_name=name).all()
+    payments  = Payment.query.filter_by(seller_name=name).order_by(Payment.date.desc()).all()
     payment_summary = {
         'amount': sum(p.amount_paid or 0 for p in payments)
     }
@@ -103,7 +103,7 @@ def stockist_module():
     # --------------------------------
     # 1. My Materials Stored
     # --------------------------------
-    stock_data = StockData.query.filter_by(stockist_name=name).all()
+    stock_data = StockData.query.filter_by(stockist_name=name).order_by(StockData.date.desc()).all()
 
     # Summary by warehouse and commodity (in MT)
     material_summary = {}
@@ -119,7 +119,7 @@ def stockist_module():
     # --------------------------------
     # 2. Loans Received
     # --------------------------------
-    loan_data = LoanData.query.filter_by(stockist_name=name).all()
+    loan_data  = LoanData.query.filter_by(stockist_name=name).order_by(LoanData.date.desc()).all()
 
     # Initialize summary structure
     loan_summary = {}
@@ -139,7 +139,7 @@ def stockist_module():
     # --------------------------------
     # 3. Margins Paid
     # --------------------------------
-    margin_data = MarginData.query.filter_by(stockist_name=name).all()
+    margin_data = MarginData.query.filter_by(stockist_name=name).order_by(MarginData.date.desc()).all()
 
     margin_summary = {}
     for entry in margin_data:

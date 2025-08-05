@@ -57,8 +57,10 @@ def format_date(value):
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = '5e4a6264c704ebe73ae348c4b3283d0b43ba1d04ab380c83dd4ab523f3f2c39d'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/DUDU1608/warehouse-web/warehouse.db'
+    # This makes the DB path work on any computer/server, if warehouse.db is in the project root
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///warehouse.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
     db.init_app(app)
     login_manager.init_app(app)

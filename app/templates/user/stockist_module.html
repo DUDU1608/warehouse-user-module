@@ -79,7 +79,7 @@
           <tbody>
             {% for entry in stock_data %}
             <tr>
-              <td>{{ entry.date }}</td>
+              <td>{{ entry.date | format_date }}</td>
               <td>{{ entry.warehouse }}</td>
               <td>{{ entry.rst_no }}</td>
               <td>{{ entry.commodity }}</td>
@@ -125,7 +125,7 @@
           <tbody>
             {% for entry in loan_data %}
             <tr>
-              <td>{{ entry.date }}</td>
+              <td>{{ entry.date | format_date }}</td>
               <td>{{ entry.warehouse }}</td>
               <td>{{ entry.commodity }}</td>
               <td>{{ entry.loan_type }}</td>
@@ -167,7 +167,7 @@
           <tbody>
             {% for entry in margin_data %}
             <tr>
-              <td>{{ entry.date }}</td>
+              <td>{{ entry.date | format_date }}</td>
               <td>{{ entry.warehouse }}</td>
               <td>{{ entry.commodity }}</td>
               <td>{{ entry.amount | format_inr }}</td>

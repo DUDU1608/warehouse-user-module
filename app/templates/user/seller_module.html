@@ -82,7 +82,7 @@
           <tbody>
             {% for p in purchases %}
             <tr>
-              <td>{{ p.date }}</td>
+              <td>{{ p.date | format_date }}</td>
               <td>{{ p.rst_no }}</td>
               <td>{{ p.commodity }}</td>
               <td>{{ p.quantity | round(2)}}</td>
@@ -123,7 +123,7 @@
           <tbody>
             {% for pay in payments %}
             <tr>
-              <td>{{ pay.date }}</td>
+              <td>{{ pay.date | format_date }}</td>
               <td>{{ pay.bank_reference }}</td>
               <td>{{ pay.amount_paid }}</td>
             </tr>
