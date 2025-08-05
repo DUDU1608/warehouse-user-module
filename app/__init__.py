@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
@@ -31,69 +31,54 @@ def format_inr(value):
     except:
         return "₹0.00"
 
-
-
 def kg_to_mt(value):
     try:
         return "{:.2f} MT".format((value or 0) / 1000)
     except:
         return "0.00 MT"
 
+def format_date(value):
+    from datetime import datetime
+    try:
+        if hasattr(value, "strftime"):
+            return value.strftime('%d-%m-%Y')
+        elif isinstance(value, str):
+            # Try to parse the string
+            try:
+                dt = datetime.strptime(value, "%Y-%m-%d")
+            except ValueError:
+                dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+            return dt.strftime('%d-%m-%Y')
+        else:
+            return value
+    except Exception:
+        return value
+
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'your-secret-key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///warehouse.db'
+    app.config['SECRET_KEY'] = '5e4a6264c704ebe73ae348c4b3283d0b43ba1d04ab380c83dd4ab523f3f2c39d'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/DUDU1608/warehouse-web/warehouse.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+    # login_manager.login_view = 'user_auth.login'  # Uncomment if you use flask_login
 
+    # Register Jinja filters
     app.jinja_env.filters['format_inr'] = format_inr
     app.jinja_env.filters['kg_to_mt'] = kg_to_mt
+    app.jinja_env.filters['format_date'] = format_date
 
-    from .routes import auth
-    app.register_blueprint(auth.bp)
-
-    from app.routes.seller import dashboard, seller, purchase, payment, due
-
-    app.register_blueprint(dashboard.bp)
-    app.register_blueprint(seller.bp)
-    app.register_blueprint(purchase.bp)
-    app.register_blueprint(payment.bp)
-    app.register_blueprint(due.bp)
-
-    from app.routes.stockist import dashboard, stockist, stockdata, stockexit, loandata, margindata, rental_calculator
-    app.register_blueprint(dashboard.bp)
-    app.register_blueprint(stockist.bp)
-    app.register_blueprint(stockdata.bp)
-    app.register_blueprint(stockexit.bp)
-    app.register_blueprint(loandata.bp)
-    app.register_blueprint(margindata.bp)
-    app.register_blueprint(rental_calculator.bp)
-
-    from app.routes.company import dashboard as company_dashboard, companyloan, loanrepayment, interest_payble, interest_receivable, rental_due, expenditure, breakeven_calculator, profit_loss
-    app.register_blueprint(company_dashboard.bp)
-    app.register_blueprint(companyloan.bp)
-    app.register_blueprint(loanrepayment.bp)
-    app.register_blueprint(interest_payble.bp)
-    app.register_blueprint(interest_receivable.bp)
-    app.register_blueprint(rental_due.bp)
-    app.register_blueprint(expenditure.bp)
-    app.register_blueprint(breakeven_calculator.bp)
-    app.register_blueprint(profit_loss.bp)
-
-
-    from app.routes.stock_summary import bp as stock_summary_bp
-    app.register_blueprint(stock_summary_bp)
-
-    from app.routes.company.interest_receivable import calculate_interest_receivable_upto_today
-    from app.routes.company.interest_payble import calculate_interest_payable_upto_today
-
-    from app.routes.user import user_auth_bp, user_view_bp
+    # Only register user module blueprints
+    from app.routes.user.auth import user_auth_bp
+    from app.routes.user.views import user_view_bp
 
     app.register_blueprint(user_auth_bp)
     app.register_blueprint(user_view_bp)
 
+    # This is the CORRECT way to register the root route
+    @app.route('/')
+    def root():
+        return render_template('user/index.html')
 
     return app

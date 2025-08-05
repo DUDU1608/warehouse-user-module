@@ -17,6 +17,12 @@
 </head>
 <body>
 <div class="container mt-4 mb-5">
+  <div class="mb-3 text-end">
+  <a href="{{ url_for('user_views.home') }}" class="btn btn-outline-secondary">
+    ← Back to Home
+  </a>
+</div>
+
   <h2 class="mb-4 text-center fw-bold text-primary">📦 Stockist Dashboard</h2>
 
   <!-- Nav Tabs -->
@@ -29,6 +35,12 @@
     </li>
     <li class="nav-item">
       <button class="nav-link" data-bs-toggle="tab" data-bs-target="#margins" type="button">📉 Margins Paid</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rental" type="button">🏢 Rental Due</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#interest" type="button">💸 Interest Due</button>
     </li>
   </ul>
 
@@ -56,24 +68,26 @@
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
              <tr>
-        <th>Warehouse</th>
-        <th>RST No</th>
-        <th>Commodity</th>
-        <th>Quantity (kg)</th>
-        <th>Quality</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for entry in stock_data %}
-      <tr>
-        <td>{{ entry.warehouse }}</td>
-        <td>{{ entry.rst_no }}</td>
-        <td>{{ entry.commodity }}</td>
-        <td>{{ entry.quantity or 0 }}</td>
-        <td>{{ entry.quality }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
+               <th>Date</th>
+                <th>Warehouse</th>
+                <th>RST No</th>
+                <th>Commodity</th>
+                <th>Quantity (kg)</th>
+                <th>Quality</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in stock_data %}
+            <tr>
+              <td>{{ entry.date }}</td>
+              <td>{{ entry.warehouse }}</td>
+              <td>{{ entry.rst_no }}</td>
+              <td>{{ entry.commodity }}</td>
+              <td>{{ entry.quantity or 0 }}</td>
+              <td>{{ entry.quality }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
       </div>
     </div>
@@ -101,6 +115,7 @@
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
             <tr>
+              <th>Date</th>
               <th>Warehouse</th>
               <th>Commodity</th>
               <th>Loan Type</th>
@@ -110,6 +125,7 @@
           <tbody>
             {% for entry in loan_data %}
             <tr>
+              <td>{{ entry.date }}</td>
               <td>{{ entry.warehouse }}</td>
               <td>{{ entry.commodity }}</td>
               <td>{{ entry.loan_type }}</td>
@@ -142,6 +158,7 @@
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
             <tr>
+               <th>Date</th>
               <th>Warehouse</th>
               <th>Commodity</th>
               <th>Margin Paid</th>
@@ -150,6 +167,7 @@
           <tbody>
             {% for entry in margin_data %}
             <tr>
+              <td>{{ entry.date }}</td>
               <td>{{ entry.warehouse }}</td>
               <td>{{ entry.commodity }}</td>
               <td>{{ entry.amount | format_inr }}</td>
@@ -159,6 +177,49 @@
         </table>
       </div>
     </div>
+
+    <!-- Rental Due -->
+    <div class="tab-pane fade" id="rental">
+      <h5 class="fw-semibold mb-3 text-success">🏢 Rental Due <span class="fs-6">(till {{ today }}, ₹{{ rental_rate }}/MT/day)</span></h5>
+      <div class="row">
+        {% for wh, comms in rental_due.items() %}
+        <div class="col-md-4 mb-3">
+          <div class="card border-info shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title text-info fw-bold">{{ wh }}</h6>
+              <ul class="mb-0">
+                {% for commodity, amount in comms.items() %}
+                  <li>{{ commodity }} — <strong>₹{{ "{:,.2f}".format(amount) }}</strong></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% else %}
+          <div class="col-12"><p class="text-muted">No rental due data found.</p></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Interest Due -->
+    <div class="tab-pane fade" id="interest">
+      <h5 class="fw-semibold mb-3 text-warning">💸 Interest Due <span class="fs-6">(till {{ today }}, {{ interest_rate }}% p.a.)</span></h5>
+      <div class="row">
+        {% for wh, amt in interest_due.items() %}
+        <div class="col-md-4 mb-3">
+          <div class="card border-warning shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title text-warning fw-bold">{{ wh }}</h6>
+              <p class="mb-0">Interest Due: <strong>₹{{ "{:,.2f}".format(amt) }}</strong></p>
+            </div>
+          </div>
+        </div>
+        {% else %}
+          <div class="col-12"><p class="text-muted">No interest due data found.</p></div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- END tab-content -->
   </div>
 </div>
 

@@ -1,14 +1,12 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 from flask_login import login_required
-
 from app import db
-from app.models import Seller, Stockist, Purchase, Payment, LoanData, MarginData, StockData
-
+from app.models import Seller, Stockist, Purchase, Payment, LoanData, MarginData, StockData, StockExit
+from datetime import date
 
 def login_required(func):
     from functools import wraps
     from flask import session, redirect, url_for
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         if 'mobile' not in session:
@@ -16,9 +14,7 @@ def login_required(func):
         return func(*args, **kwargs)
     return wrapper
 
-
 user_view_bp = Blueprint('user_views', __name__, url_prefix='/user')
-
 
 @user_view_bp.route('/')
 def index():
@@ -48,9 +44,6 @@ def home():
                            is_seller=is_seller,
                            is_stockist=is_stockist,
                            display_name=display_name)
-
-
-from datetime import date
 
 @user_view_bp.route('/seller')
 @login_required
@@ -138,9 +131,9 @@ def stockist_module():
         if wh not in loan_summary:
             loan_summary[wh] = {'cash': 0, 'margin': 0}
 
-        if loan_type.lower() == 'cash':
+        if loan_type and loan_type.lower() == 'cash':
             loan_summary[wh]['cash'] += amt
-        elif loan_type.lower() == 'margin':
+        elif loan_type and loan_type.lower() == 'margin':
             loan_summary[wh]['margin'] += amt
 
     # --------------------------------
@@ -151,12 +144,58 @@ def stockist_module():
     margin_summary = {}
     for entry in margin_data:
         wh = entry.warehouse
-        com = entry.commodity
         amt = entry.amount or 0
 
         if wh not in margin_summary:
             margin_summary[wh] = 0
         margin_summary[wh] += amt
+
+    # --------------------------------
+    # 4. Rental Due (by warehouse and commodity)
+    # --------------------------------
+    rental_rate = 3.334
+    today = date.today()
+
+    # Collect all (warehouse, commodity) pairs
+    pairs = set((entry.warehouse, entry.commodity) for entry in stock_data)
+    rental_due = {}
+    for wh, commodity in pairs:
+        # Net stock: total in - total out
+        total_in = sum((e.quantity or 0) for e in StockData.query.filter_by(stockist_name=name, warehouse=wh, commodity=commodity).all())
+        total_out = sum((e.quantity or 0) for e in StockExit.query.filter_by(stockist_name=name, warehouse=wh, commodity=commodity).all())
+        net_qty_kg = total_in - total_out
+        net_qty_mt = net_qty_kg / 1000
+
+        # Rental = net_qty_mt * rental_rate * number of days since earliest entry for this stockist/warehouse/commodity
+        first_entry = StockData.query.filter_by(stockist_name=name, warehouse=wh, commodity=commodity).order_by(StockData.date).first()
+        if first_entry:
+            num_days = (today - first_entry.date).days + 1
+        else:
+            num_days = 0
+
+        total_rental = net_qty_mt * rental_rate * num_days if net_qty_mt > 0 else 0
+        if wh not in rental_due:
+            rental_due[wh] = {}
+        rental_due[wh][commodity] = round(total_rental, 2)
+
+    # --------------------------------
+    # 5. Interest Due (by warehouse)
+    # --------------------------------
+    interest_rate = 13.75
+    warehouses = set(entry.warehouse for entry in loan_data)
+    interest_due = {}
+    for wh in warehouses:
+        total_loan = sum((e.amount or 0) for e in LoanData.query.filter_by(stockist_name=name, warehouse=wh).all())
+        total_margin = sum((e.amount or 0) for e in MarginData.query.filter_by(stockist_name=name, warehouse=wh).all())
+        first_loan = LoanData.query.filter_by(stockist_name=name, warehouse=wh).order_by(LoanData.date).first()
+        if first_loan:
+            num_days = (today - first_loan.date).days + 1
+        else:
+            num_days = 0
+
+        principal = total_loan - total_margin
+        interest_amt = principal * (interest_rate / 100) * (num_days / 365) if principal > 0 and num_days > 0 else 0
+        interest_due[wh] = round(interest_amt, 2)
 
     return render_template(
         'user/stockist_module.html',
@@ -165,7 +204,10 @@ def stockist_module():
         loan_data=loan_data,
         loan_summary=loan_summary,
         margin_data=margin_data,
-        margin_summary=margin_summary
+        margin_summary=margin_summary,
+        rental_due=rental_due,
+        rental_rate=rental_rate,
+        interest_due=interest_due,
+        interest_rate=interest_rate,
+        today=today.strftime("%d/%m/%Y")
     )
-
-

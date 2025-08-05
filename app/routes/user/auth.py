@@ -41,3 +41,9 @@ def verify_otp():
     else:
         flash("Invalid OTP", "danger")
         return render_template('user/verify_otp.html', mobile=mobile)
+
+@user_auth_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('user_auth.login'))
+
