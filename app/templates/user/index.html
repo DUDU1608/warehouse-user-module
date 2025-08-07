@@ -1,53 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Warehouse Management App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(120deg, #b1c5ee 0%, #f3f7fc 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .main-card {
-            background: #fff;
-            padding: 46px 40px 38px 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 36px #bfd4f7;
-            text-align: center;
-            max-width: 370px;
-        }
-        .main-title {
-            font-size: 2.3rem;
-            color: #274c97;
-            font-weight: 700;
-            margin-bottom: 32px;
-            letter-spacing: .5px;
-        }
-        .main-btn {
-            padding: 13px 0;
-            font-size: 1.17rem;
-            width: 100%;
-            background: linear-gradient(90deg, #4973c9, #64b3f4);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 2px 10px #d7e6f8;
-            transition: background 0.16s;
-        }
-        .main-btn:hover {
-            background: linear-gradient(90deg, #274c97, #4ea6f3);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Welcome | Shree Anunay Agro Warehouse Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: url("/static/images/index_background.jpg") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 15px;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.88);
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .logo-img {
+      height: 60px;
+      width: auto;
+      border-radius: 5px;
+    }
+
+    .company-name {
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .slogan {
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    .card-highlight {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .card-highlight:hover {
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 15px 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    @media (max-width: 768px) {
+      .logo-img {
+        height: 40px;
+      }
+
+      .company-name {
+        font-size: 1rem;
+      }
+
+      .slogan {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container text-center mt-5">
-    <h2>Welcome to Anunay Agro Warehouse Portal</h2>
-    <a href="/user/login" class="btn btn-primary mt-3">Login</a>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-white shadow-sm px-4 py-2">
+    <div class="d-flex align-items-center">
+      <img src="/static/images/logo_anunay_agro.png" alt="Logo" class="logo-img me-3">
+      <div class="d-flex flex-column justify-content-center">
+        <h5 class="mb-0 company-name">Anunay Agro</h5>
+        <small class="text-muted slogan">Reducing Post Harvest Wastage</small>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <div class="container main-container">
+    <div class="overlay text-center">
+      <h2 class="fw-bold text-primary mb-3">Welcome to Anunay Agro Warehouse Portal</h2>
+      <p class="lead mb-4">
+        Access your storage records, loan summaries, and transaction data anytime, anywhere. Secure OTP login enabled.
+      </p>
+
+      <a href="/user/login" class="btn btn-primary btn-lg mb-5">Login to Continue</a>
+
+      <!-- Features Section -->
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+          <div class="card card-highlight h-100">
+            <div class="card-body">
+              <h5 class="card-title">📦 Seller & Stockist Dashboard</h5>
+              <p class="card-text">Easily manage purchases, stock entries, loans, and due reports.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-highlight h-100">
+            <div class="card-body">
+              <h5 class="card-title">📊 Reports & Exports</h5>
+              <p class="card-text">Download summaries in Excel or PDF. Powerful filtering options included.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-highlight h-100">
+            <div class="card-body">
+              <h5 class="card-title">🔐 OTP-Based Secure Login</h5>
+              <p class="card-text">Powered by Fast2SMS. No password required — login via mobile OTP.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Anunay Agro | 📧 <a href="mailto:skchy@anunayagro.co.in">skchy@anunayagro.co.in</a> | 📞 9771899097, 6299176257 |
+    🔧 For portal issues: <a href="tel:9771259451">9771259451</a>
+  </footer>
+
 </body>
 </html>
