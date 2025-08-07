@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-FAST2SMS_API_KEY = os.getenv("kYH0O1LXEpPJbxN8tdcGDQRuslU7MzCTrmIiy4v9egABqFhZowqTg0QL4fldPyeI5F3bASR6auohEOpm")
+FAST2SMS_API_KEY = os.getenv("FAST2SMS_API_KEY")  # KEY SHOULD BE STORED AS THIS
 
 def send_otp_fast2sms(mobile, otp):
     if not FAST2SMS_API_KEY:
@@ -17,7 +17,6 @@ def send_otp_fast2sms(mobile, otp):
         "route": "otp",
         "variables_values": otp,
         "numbers": mobile,
-        "flash": "0",
         "sender_id": "FSTSMS"
     }
 
