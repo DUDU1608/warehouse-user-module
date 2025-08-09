@@ -41,13 +41,28 @@
     <p class="text-muted text-center mb-3"> <strong>{{ mobile }}</strong> पर OTP भेजा गया</p>
 
     <form method="POST" action="/user/verify-otp">
-      <input type="hidden" name="mobile" value="{{ mobile }}">
-      <div class="mb-3">
-        <label for="otp" class="form-label" </label>
-        <input type="text" class="form-control" id="otp" name="otp" placeholder="कृपया छह अंकों का OTP दर्ज करें" required>
-      </div>
-      <button type="submit" class="btn btn-success w-100">लॉग इन करें</button>
-    </form>
+  <input type="hidden" name="mobile" value="{{ mobile }}">
+
+  <div class="mb-3">
+    <label for="otp" class="form-label">ओटीपी</label>
+    <input
+      id="otp"
+      name="otp"
+      class="form-control"
+      type="text"
+      placeholder="कृपया छह अंकों का OTP दर्ज करें"
+      inputmode="numeric"
+      pattern="\d{6}"
+      minlength="6"
+      maxlength="6"
+      autocomplete="one-time-code"
+      required
+    >
+  </div>
+
+  <button type="submit" class="btn btn-success w-100">लॉग इन करें</button>
+</form>
+
 
     <div class="mt-4 text-center text-muted" style="font-size: 0.9rem;">
       OTP for testing: <strong>123456</strong>
