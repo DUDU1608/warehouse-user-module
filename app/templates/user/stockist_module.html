@@ -1,53 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <title>Stockist Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      body {
-        background-color: #f5f8fa;
-      }
-      .card {
-        border-radius: 10px;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <title>स्टॉकिस्ट डैशबोर्ड</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f8fa; }
+    .card { border-radius: 10px; }
+    .lang-wrap { display:flex; justify-content:flex-end; align-items:center; gap:.5rem; }
+  </style>
 </head>
 <body>
 <div class="container mt-4 mb-5">
-  <div class="mb-3 text-end">
-  <a href="{{ url_for('user_views.home') }}" class="btn btn-outline-secondary">
-    ← Back to Home
-  </a>
-</div>
 
-  <h2 class="mb-4 text-center fw-bold text-primary">📦 Stockist Dashboard</h2>
+  <!-- Top bar: Back + Language -->
+  <div class="mb-3 lang-wrap">
+    <a href="{{ url_for('user_views.home') }}" class="btn btn-outline-secondary"
+       data-hi="← मुख्य पृष्ठ पर वापस जाएँ"
+       data-en="← Back to Home">← मुख्य पृष्ठ पर वापस जाएँ</a>
+
+    <select id="langSwitcher" class="form-select form-select-sm" style="width:auto">
+      <option value="hi" selected>हिन्दी</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <h2 class="mb-4 text-center fw-bold text-primary"
+      data-hi="📦 स्टॉकिस्ट डैशबोर्ड"
+      data-en="📦 Stockist Dashboard">📦 स्टॉकिस्ट डैशबोर्ड</h2>
 
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs mb-4" id="stockistTabs" role="tablist">
     <li class="nav-item">
-      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#materials" type="button">📦 My Materials Stored</button>
+      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#materials" type="button"
+              data-hi="📦 मेरे संग्रहित सामग्री"
+              data-en="📦 My Materials Stored">📦 मेरे संग्रहित सामग्री</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#loans" type="button">💰 Loans Received</button>
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#loans" type="button"
+              data-hi="💰 प्राप्त ऋण"
+              data-en="💰 Loans Received">💰 प्राप्त ऋण</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#margins" type="button">📉 Margins Paid</button>
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#margins" type="button"
+              data-hi="📉 दी गई मार्जिन"
+              data-en="📉 Margins Paid">📉 दी गई मार्जिन</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rental" type="button">🏢 Rental Due</button>
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rental" type="button"
+              data-hi="🏢 गोदाम किराया देय"
+              data-en="🏢 Rental Due">🏢 गोदाम किराया देय</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#interest" type="button">💸 Interest Due</button>
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#interest" type="button"
+              data-hi="💸 ब्याज देय"
+              data-en="💸 Interest Due">💸 ब्याज देय</button>
     </li>
   </ul>
 
   <div class="tab-content">
     <!-- My Materials Stored -->
     <div class="tab-pane fade show active" id="materials">
-      <h5 class="text-success fw-semibold mb-3">📋 Summary (in MT)</h5>
+      <h5 class="text-success fw-semibold mb-3"
+          data-hi="📋 सारांश (एमटी में)"
+          data-en="📋 Summary (in MT)">📋 सारांश (एमटी में)</h5>
+
       <div class="row">
         {% for wh, data in material_summary.items() %}
         <div class="col-md-4 mb-3">
@@ -63,17 +82,20 @@
         {% endfor %}
       </div>
 
-      <h5 class="mt-4 text-secondary fw-semibold">📄 Detailed Entries</h5>
+      <h5 class="mt-4 text-secondary fw-semibold"
+          data-hi="📄 विस्तृत प्रविष्टियाँ"
+          data-en="📄 Detailed Entries">📄 विस्तृत प्रविष्टियाँ</h5>
+
       <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
              <tr>
-               <th>Date</th>
-                <th>Warehouse</th>
-                <th>RST No</th>
-                <th>Commodity</th>
-                <th>Quantity (kg)</th>
-                <th>Quality</th>
+               <th data-hi="तिथि" data-en="Date">तिथि</th>
+               <th data-hi="वेयरहाउस" data-en="Warehouse">वेयरहाउस</th>
+               <th data-hi="आरएसटी नं." data-en="RST No">आरएसटी नं.</th>
+               <th data-hi="वस्तु" data-en="Commodity">वस्तु</th>
+               <th data-hi="मात्रा (किग्रा)" data-en="Quantity (kg)">मात्रा (किग्रा)</th>
+               <th data-hi="गुणवत्ता" data-en="Quality">गुणवत्ता</th>
             </tr>
           </thead>
           <tbody>
@@ -94,32 +116,44 @@
 
     <!-- Loans Received -->
     <div class="tab-pane fade" id="loans">
-      <h5 class="text-success fw-semibold mb-3">📋 Summary</h5>
+      <h5 class="text-success fw-semibold mb-3"
+          data-hi="📋 सारांश"
+          data-en="📋 Summary">📋 सारांश</h5>
+
       <div class="row">
         {% for wh, data in loan_summary.items() %}
         <div class="col-md-4 mb-3">
           <div class="card border-success shadow-sm">
             <div class="card-body">
               <h6 class="card-title text-success fw-bold">{{ wh }}</h6>
-              <p class="mb-1">Total Cash Loan — {{ data.cash | format_inr }}</p>
-              <p class="mb-1">Total Margin Loan — {{ data.margin | format_inr }}</p>
-              <p class="mb-0 fw-semibold">Total Loan — {{ (data.cash + data.margin) | format_inr }}</p>
+              <p class="mb-1" data-hi="कुल नकद ऋण — {{ data.cash | format_inr }}" data-en="Total Cash Loan — {{ data.cash | format_inr }}">
+                कुल नकद ऋण — {{ data.cash | format_inr }}
+              </p>
+              <p class="mb-1" data-hi="कुल मार्जिन ऋण — {{ data.margin | format_inr }}" data-en="Total Margin Loan — {{ data.margin | format_inr }}">
+                कुल मार्जिन ऋण — {{ data.margin | format_inr }}
+              </p>
+              <p class="mb-0 fw-semibold" data-hi="कुल ऋण — {{ (data.cash + data.margin) | format_inr }}" data-en="Total Loan — {{ (data.cash + data.margin) | format_inr }}">
+                कुल ऋण — {{ (data.cash + data.margin) | format_inr }}
+              </p>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
 
-      <h5 class="mt-4 text-secondary fw-semibold">📄 Detailed Entries</h5>
+      <h5 class="mt-4 text-secondary fw-semibold"
+          data-hi="📄 विस्तृत प्रविष्टियाँ"
+          data-en="📄 Detailed Entries">📄 विस्तृत प्रविष्टियाँ</h5>
+
       <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
             <tr>
-              <th>Date</th>
-              <th>Warehouse</th>
-              <th>Commodity</th>
-              <th>Loan Type</th>
-              <th>Amount</th>
+              <th data-hi="तिथि" data-en="Date">तिथि</th>
+              <th data-hi="वेयरहाउस" data-en="Warehouse">वेयरहाउस</th>
+              <th data-hi="वस्तु" data-en="Commodity">वस्तु</th>
+              <th data-hi="ऋण प्रकार" data-en="Loan Type">ऋण प्रकार</th>
+              <th data-hi="राशि" data-en="Amount">राशि</th>
             </tr>
           </thead>
           <tbody>
@@ -139,29 +173,39 @@
 
     <!-- Margins Paid -->
     <div class="tab-pane fade" id="margins">
-      <h5 class="text-success fw-semibold mb-3">📋 Summary</h5>
+      <h5 class="text-success fw-semibold mb-3"
+          data-hi="📋 सारांश"
+          data-en="📋 Summary">📋 सारांश</h5>
+
       <div class="row">
         {% for wh, total in margin_summary.items() %}
         <div class="col-md-4 mb-3">
           <div class="card border-warning shadow-sm">
             <div class="card-body">
               <h6 class="card-title text-warning fw-bold">{{ wh }}</h6>
-              <p class="mb-0 fw-semibold">Total Margin Paid — {{ total | format_inr }}</p>
+              <p class="mb-0 fw-semibold"
+                 data-hi="कुल दी गई मार्जिन — {{ total | format_inr }}"
+                 data-en="Total Margin Paid — {{ total | format_inr }}">
+                 कुल दी गई मार्जिन — {{ total | format_inr }}
+              </p>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
 
-      <h5 class="mt-4 text-secondary fw-semibold">📄 Detailed Entries</h5>
+      <h5 class="mt-4 text-secondary fw-semibold"
+          data-hi="📄 विस्तृत प्रविष्टियाँ"
+          data-en="📄 Detailed Entries">📄 विस्तृत प्रविष्टियाँ</h5>
+
       <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover small">
           <thead class="table-dark">
             <tr>
-               <th>Date</th>
-              <th>Warehouse</th>
-              <th>Commodity</th>
-              <th>Margin Paid</th>
+               <th data-hi="तिथि" data-en="Date">तिथि</th>
+               <th data-hi="वेयरहाउस" data-en="Warehouse">वेयरहाउस</th>
+               <th data-hi="वस्तु" data-en="Commodity">वस्तु</th>
+               <th data-hi="भरी गई मार्जिन" data-en="Margin Paid">भरी गई मार्जिन</th>
             </tr>
           </thead>
           <tbody>
@@ -180,7 +224,11 @@
 
     <!-- Rental Due -->
     <div class="tab-pane fade" id="rental">
-      <h5 class="fw-semibold mb-3 text-success">🏢 Rental Due <span class="fs-6">(till {{ today }}, ₹{{ rental_rate }}/MT/day)</span></h5>
+      <h5 class="fw-semibold mb-3 text-success"
+          data-hi="🏢 गोदाम किराया देय <span class='fs-6'>( {{ today }} तक, ₹{{ rental_rate }}/MT/दिन )</span>"
+          data-en="🏢 Rental Due <span class='fs-6'>(till {{ today }}, ₹{{ rental_rate }}/MT/day)</span>">
+        🏢 गोदाम किराया देय <span class="fs-6">( {{ today }} तक, ₹{{ rental_rate }}/MT/दिन )</span>
+      </h5>
       <div class="row">
         {% for wh, comms in rental_due.items() %}
         <div class="col-md-4 mb-3">
@@ -196,26 +244,42 @@
           </div>
         </div>
         {% else %}
-          <div class="col-12"><p class="text-muted">No rental due data found.</p></div>
+          <div class="col-12">
+            <p class="text-muted"
+               data-hi="कोई किराया देय डेटा नहीं मिला."
+               data-en="No rental due data found.">कोई किराया देय डेटा नहीं मिला.</p>
+          </div>
         {% endfor %}
       </div>
     </div>
 
     <!-- Interest Due -->
     <div class="tab-pane fade" id="interest">
-      <h5 class="fw-semibold mb-3 text-warning">💸 Interest Due <span class="fs-6">(till {{ today }}, {{ interest_rate }}% p.a.)</span></h5>
+      <h5 class="fw-semibold mb-3 text-warning"
+          data-hi="💸 ब्याज देय <span class='fs-6'>( {{ today }} तक, {{ interest_rate }}% प्रति वर्ष )</span>"
+          data-en="💸 Interest Due <span class='fs-6'>(till {{ today }}, {{ interest_rate }}% p.a.)</span>">
+        💸 ब्याज देय <span class="fs-6">( {{ today }} तक, {{ interest_rate }}% प्रति वर्ष )</span>
+      </h5>
       <div class="row">
         {% for wh, amt in interest_due.items() %}
         <div class="col-md-4 mb-3">
           <div class="card border-warning shadow-sm">
             <div class="card-body">
               <h6 class="card-title text-warning fw-bold">{{ wh }}</h6>
-              <p class="mb-0">Interest Due: <strong>₹{{ "{:,.2f}".format(amt) }}</strong></p>
+              <p class="mb-0"
+                 data-hi="देय ब्याज: <strong>₹{{ '{:,.2f}'.format(amt) }}</strong>"
+                 data-en="Interest Due: <strong>₹{{ '{:,.2f}'.format(amt) }}</strong>">
+                 देय ब्याज: <strong>₹{{ "{:,.2f}".format(amt) }}</strong>
+              </p>
             </div>
           </div>
         </div>
         {% else %}
-          <div class="col-12"><p class="text-muted">No interest due data found.</p></div>
+          <div class="col-12">
+            <p class="text-muted"
+               data-hi="कोई ब्याज देय डेटा नहीं मिला."
+               data-en="No interest due data found.">कोई ब्याज देय डेटा नहीं मिला.</p>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -225,5 +289,36 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Language Toggle -->
+<script>
+(function () {
+  const switcher = document.getElementById('langSwitcher');
+
+  function applyLang(lang) {
+    document.documentElement.setAttribute('lang', lang);
+    // swap all elements with data-hi / data-en
+    document.querySelectorAll('[data-hi]').forEach(el => {
+      const txt = el.getAttribute(lang === 'hi' ? 'data-hi' : 'data-en');
+      if (txt !== null) el.innerHTML = txt;
+    });
+    // Title
+    const titleHi = 'स्टॉकिस्ट डैशबोर्ड';
+    const titleEn = 'Stockist Dashboard';
+    document.title = (lang === 'hi') ? titleHi : titleEn;
+    try { localStorage.setItem('ui-lang', lang); } catch(e){}
+  }
+
+  // Restore saved language (default hi)
+  let lang = 'hi';
+  try { lang = localStorage.getItem('ui-lang') || 'hi'; } catch(e){}
+  switcher.value = lang;
+  applyLang(lang);
+
+  switcher.addEventListener('change', function () {
+    applyLang(this.value);
+  });
+})();
+</script>
 </body>
 </html>
