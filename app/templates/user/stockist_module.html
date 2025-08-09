@@ -72,7 +72,7 @@
         <div class="col-md-4 mb-3">
           <div class="card border-primary shadow-sm">
             <div class="card-body">
-              <h6 class="card-title text-primary fw-bold">{{ wh }}</h6>
+              <h6 class="card-title text-primary fw-bold">{{ wh | to_hindi }}</h6>
               {% for com, qty in data.items() %}
                 <p class="mb-1">{{ com }} — <strong>{{ '%.2f' % qty }} MT</strong></p>
               {% endfor %}
@@ -102,9 +102,9 @@
             {% for entry in stock_data %}
             <tr>
               <td>{{ entry.date | format_date }}</td>
-              <td>{{ entry.warehouse }}</td>
+              <td>{{ entry.warehouse | to_hindi}}</td>
               <td>{{ entry.rst_no }}</td>
-              <td>{{ entry.commodity }}</td>
+              <td>{{ entry.commodity | to_hindi}}</td>
               <td>{{ entry.quantity or 0 }}</td>
               <td>{{ entry.quality }}</td>
             </tr>
@@ -125,7 +125,7 @@
         <div class="col-md-4 mb-3">
           <div class="card border-success shadow-sm">
             <div class="card-body">
-              <h6 class="card-title text-success fw-bold">{{ wh }}</h6>
+              <h6 class="card-title text-success fw-bold">{{ wh | to_hindi }}</h6>
               <p class="mb-1" data-hi="कुल नकद ऋण — {{ data.cash | format_inr }}" data-en="Total Cash Loan — {{ data.cash | format_inr }}">
                 कुल नकद ऋण — {{ data.cash | format_inr }}
               </p>
@@ -160,9 +160,9 @@
             {% for entry in loan_data %}
             <tr>
               <td>{{ entry.date | format_date }}</td>
-              <td>{{ entry.warehouse }}</td>
-              <td>{{ entry.commodity }}</td>
-              <td>{{ entry.loan_type }}</td>
+              <td>{{ entry.warehouse | to_hindi }}</td>
+              <td>{{ entry.commodity | to_hindi}}</td>
+              <td>{{ entry.loan_type | to_hindi }}</td>
               <td>{{ entry.amount | format_inr }}</td>
             </tr>
             {% endfor %}
@@ -182,7 +182,7 @@
         <div class="col-md-4 mb-3">
           <div class="card border-warning shadow-sm">
             <div class="card-body">
-              <h6 class="card-title text-warning fw-bold">{{ wh }}</h6>
+              <h6 class="card-title text-warning fw-bold">{{ wh | to_hindi }}</h6>
               <p class="mb-0 fw-semibold"
                  data-hi="कुल दी गई मार्जिन — {{ total | format_inr }}"
                  data-en="Total Margin Paid — {{ total | format_inr }}">
@@ -212,8 +212,8 @@
             {% for entry in margin_data %}
             <tr>
               <td>{{ entry.date | format_date }}</td>
-              <td>{{ entry.warehouse }}</td>
-              <td>{{ entry.commodity }}</td>
+              <td>{{ entry.warehouse | to_hindi}}</td>
+              <td>{{ entry.commodity | to_hindi }}</td>
               <td>{{ entry.amount | format_inr }}</td>
             </tr>
             {% endfor %}
@@ -234,7 +234,7 @@
         <div class="col-md-4 mb-3">
           <div class="card border-info shadow-sm">
             <div class="card-body">
-              <h6 class="card-title text-info fw-bold">{{ wh }}</h6>
+              <h6 class="card-title text-info fw-bold">{{ wh | to_hindi}}</h6>
               <ul class="mb-0">
                 {% for commodity, amount in comms.items() %}
                   <li>{{ commodity }} — <strong>₹{{ "{:,.2f}".format(amount) }}</strong></li>
@@ -265,7 +265,7 @@
         <div class="col-md-4 mb-3">
           <div class="card border-warning shadow-sm">
             <div class="card-body">
-              <h6 class="card-title text-warning fw-bold">{{ wh }}</h6>
+              <h6 class="card-title text-warning fw-bold">{{ wh | to_hindi }}</h6>
               <p class="mb-0"
                  data-hi="देय ब्याज: <strong>₹{{ '{:,.2f}'.format(amt) }}</strong>"
                  data-en="Interest Due: <strong>₹{{ '{:,.2f}'.format(amt) }}</strong>">

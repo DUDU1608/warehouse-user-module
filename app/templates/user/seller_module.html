@@ -120,8 +120,8 @@
             <tr>
               <td>{{ p.date | format_date }}</td>
               <td>{{ p.rst_no }}</td>
-              <td>{{ p.warehouse }}</td>
-              <td>{{ p.commodity }}</td>
+              <td>{{ p.warehouse | to_hindi}}</td>
+              <td>{{ p.commodity | to_hindi }}</td>
               <td>{{ p.quantity | round(2) }}</td>
               <td>{{ p.reduction }}</td>
               <td>{{ p.net_qty | round(2) }}</td>

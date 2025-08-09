@@ -38,15 +38,15 @@
       {% endif %}
     {% endwith %}
 
-    <p class="text-muted text-center mb-3">OTP sent to <strong>{{ mobile }}</strong></p>
+    <p class="text-muted text-center mb-3"> <strong>{{ mobile }}</strong> पर OTP भेजा गया</p>
 
     <form method="POST" action="/user/verify-otp">
       <input type="hidden" name="mobile" value="{{ mobile }}">
       <div class="mb-3">
-        <label for="otp" class="form-label">Enter OTP</label>
-        <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter 6-digit OTP" required>
+        <label for="otp" class="form-label" </label>
+        <input type="text" class="form-control" id="otp" name="otp" placeholder="कृपया छह अंकों का OTP दर्ज करें" required>
       </div>
-      <button type="submit" class="btn btn-success w-100">Verify & Login</button>
+      <button type="submit" class="btn btn-success w-100">लॉग इन करें</button>
     </form>
 
     <div class="mt-4 text-center text-muted" style="font-size: 0.9rem;">

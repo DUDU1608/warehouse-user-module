@@ -25,7 +25,7 @@
 <body>
 
   <div class="login-card">
-    <h4 class="mb-4 text-center">Warehouse User Login</h4>
+    <h4 class="mb-4 text-center">वेयरहाउस उपयोगकर्ता लॉगिन</h4>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -40,10 +40,10 @@
 
     <form method="POST" action="/user/login">
       <div class="mb-3">
-        <label for="mobile" class="form-label">Mobile Number</label>
-        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter 10-digit mobile" required>
+        <label for="mobile" class="form-label">मोबाइल नंबर</label>
+        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="10-अंकीय मोबाइल नंबर दर्ज करें" required>
       </div>
-      <button type="submit" class="btn btn-primary w-100">Send OTP</button>
+      <button type="submit" class="btn btn-primary w-100">ओटीपी भेजें</button>
     </form>
 
     <div class="mt-4 text-center text-muted" style="font-size: 0.9rem;">
